@@ -1,0 +1,27 @@
+
+p {margin: 0}
+
+
+.header{
+    background-color: #006400;
+    text-align: center;
+    padding: 50px;
+}
+
+.logo{
+    width: 300px;
+}
+
+.hfont1{
+    font-family: Anton, sans-serif;
+    color: white;
+    font-size: 100px;
+    padding: 0;
+}
+
+.hfont2{
+    font-family: 'Roboto Condensed', sans-serif;
+    color: white;
+    font-size: 30px;
+    padding: 0;
+}
