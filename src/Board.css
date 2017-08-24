@@ -1,0 +1,45 @@
+.maincontainer{
+    padding: 30px 30px 30px 30px;
+    text-align: center;
+}
+
+.gamingboard{
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-top: 0px;
+    margin: 0 auto;
+    margin-top: 35px;
+    display: inline-block;
+    border: 6px solid black;
+}
+
+.btn{
+    margin: 10px;
+}
+
+.square{
+    float: left;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color:white;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.square:hover{
+    background-color: #006400;
+}
+
+/* Font Def */
+
+.h2title{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 28px;
+    background-color: #999;
+}
+
+.h3title{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 20px;
+}

@@ -1,15 +1,20 @@
 
 p {margin: 0}
 
-
 .header{
     background-color: #006400;
     text-align: center;
-    padding: 50px;
+    padding: 20px;
 }
 
 .logo{
     width: 300px;
+}
+
+.hfont0{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 20px;
+    color: white;
 }
 
 .hfont1{
