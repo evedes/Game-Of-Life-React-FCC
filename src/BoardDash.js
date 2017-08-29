@@ -21,9 +21,9 @@ const BoardDash = (props) => {
           </div>
           <div className="col-md-4">
             <h3 className="h3title">Simulation Speed</h3>
-              <button className="btn btn-success" onClick={props.setSpeedSlow}>Slow</button>
-              <button className="btn btn-success" onClick={props.setSpeedMed}>Medium</button>
-              <button className="btn btn-success" onClick={props.setSpeedFast}>Fast</button> 
+              <button className="btn btn-success" onClick={()=>{return props.setSpeed(2000)}}>Slow</button>
+              <button className="btn btn-success" onClick={()=>{return props.setSpeed(1000)}}>Medium</button>
+              <button className="btn btn-success" onClick={()=>{props.setSpeed(100)}}>Fast</button> 
           </div>
         </div>
         <div className="row h2title">Game Of Life</div>

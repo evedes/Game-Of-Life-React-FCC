@@ -7,25 +7,50 @@ import './Board.css'
 
 let boardArray = []
 
-function initBoardArray(){
-  for (let i = 0 ; i < 3500 ; i++){
+function initBoardArray(cells){
+  for (let i = 0 ; i < cells ; i++){
     boardArray[i]=Number(Math.floor(Math.random()*3))
   }
   return boardArray;
+}
+
+function initialState(boardSize) {
+  let lines = 50
+  let cols = 70
+  let cells = lines * cols
+
+  return(
+  {
+    boardstate: initBoardArray(cells),
+    width: cols*10+12, 
+    lines: lines, 
+    cols:cols, 
+    cells: cells, 
+    generation: 0, 
+    speed: 1000
+  })
+}
+
+function Cell(props){
+  debugger
+  return(
+    <div style={{background:props.cellColor(props.cell)}} onClick={()=> props.addBabyCells(props.i)} className="square" value={props.cell} key={props.i} ></div>
+  )
 }
 
 // Board Class 
 class Board extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      boardstate: initBoardArray(), width: 712, lines: 50, cols:70, cells: 3500, generation: 0, speed: 500 }
+    this.state = initialState()
   }
+
 
   componentDidMount(){
     this.timerID = setInterval(
       () => this.nextStep(),
       this.state.speed
+      
     )
     console.log(this.state.speed)
   }
@@ -36,16 +61,14 @@ class Board extends Component {
 
 // Set Speed Buttons Functions
 
-  setSpeedSlow() {
-      this.setState({speed: 5000}) 
-  }
-
-  setSpeedMed() {
-    this.setState({speed: 1000}) 
-  }
-
-  setSpeedFast() {
-    this.setState({speed: 10}) 
+  setSpeed(newSpeed) {
+      clearInterval(this.timerID)
+      this.setState({speed: newSpeed}) 
+      this.timerID = setInterval(
+        () => this.nextStep(),
+        newSpeed
+        
+      )
   }
 
   
@@ -196,16 +219,20 @@ class Board extends Component {
     if (cell===2) return '#006400'
   }  
 
+
+
   render(){
     
     return( 
       <div className="maincontainer container-fluid">
-          <BoardDash generation={this.state.generation} speed={this.state.speed} clearBoardArray={this.clearBoardArray.bind(this)} boardDimSmall={this.boardDimSmall.bind(this)} setSpeedSlow={this.setSpeedSlow.bind(this)} setSpeedMed={this.setSpeedMed.bind(this)} setSpeedFast={this.setSpeedFast.bind(this)}/>
+          <BoardDash generation={this.state.generation} speed={this.state.speed} clearBoardArray={this.clearBoardArray.bind(this)} boardDimSmall={this.boardDimSmall.bind(this)} setSpeed={this.setSpeed.bind(this)} />
           
           {/* return the gaming board */}
           <div className="gamingboard" style={{width: this.state.width}}>
             {this.state.boardstate.map((cell,i)=>{
-              return(<div style={{background:this.cellColor(cell)}} onClick={()=> this.addBabyCells(i)} className="square" value={cell} key={i} ref={i}></div>)
+              return(
+                <Cell cell={cell} i={i} cellColor={this.cellColor} addBabyCells={this.addBabyCells.bind(this)} />
+              )
               })
             }
           </div>
