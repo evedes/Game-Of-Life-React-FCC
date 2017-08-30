@@ -3,9 +3,17 @@ import BoardInfo from './BoardInfo'
 import BoardDash from './BoardDash'
 import './Board.css'
 
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Initialize Game of Life + Definitions
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+// Init Vars
 let boardArray = []
+const lines = 50
+const cols = 70
+const cells = lines * cols
+
+// Init Board Array w/ Random Numbers
 
 function initBoardArray(cells){
   for (let i = 0 ; i < cells ; i++){
@@ -14,13 +22,9 @@ function initBoardArray(cells){
   return boardArray;
 }
 
-let lines = 50
-let cols = 70
-let cells = lines * cols
+// Set Initial State 
 
 function initialState(boardSize) {
-  
-
   return(
   {
     boardstate: initBoardArray(cells),
@@ -33,7 +37,10 @@ function initialState(boardSize) {
   })
 }
 
-// Cell Stateless Function
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// CELL STATELESS COMPONENT
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function Cell(props){
   debugger
   return(
@@ -41,41 +48,47 @@ function Cell(props){
   )
 }
 
-// Board Class 
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// BOARD CLASS
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 class Board extends React.Component {
   constructor(props){
     super(props);
     this.state = initialState()
   }
 
+  // ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // COMPONENT MOUNT MECHANICS
+  // ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  componentDidMount(){
+    componentDidMount(){
+        this.timerID = setInterval(
+            () => this.nextStep(),
+            this.state.speed)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID)
+    }
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// GAME MECHANICS
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Change Speed Function (Buttons)
+
+setSpeed(newSpeed) {
+    clearInterval(this.timerID)
+    this.setState({speed: newSpeed}) 
     this.timerID = setInterval(
       () => this.nextStep(),
-      this.state.speed
-      
-    )
-    console.log(this.state.speed)
-  }
+    newSpeed)
+}
 
-  componentWillUnmount() {
-    clearInterval(this.timerID)
-  }
+// Count the Number of Alive Neighbours Function
 
-// Set Speed Function (Buttons)
-  setSpeed(newSpeed) {
-      clearInterval(this.timerID)
-      this.setState({speed: newSpeed}) 
-      this.timerID = setInterval(
-        () => this.nextStep(),
-        newSpeed
-        
-      )
-  }
-
-  
-  // This function counts the number of neighbour cells alive
-  countNeighbours(i){
+countNeighbours(i){
     // Top Left Corner Cell
     if (i===0){
         let count = 0
@@ -144,9 +157,9 @@ class Board extends React.Component {
     }
   }
 
-  // This function calculates the next boardArray step 
+// Calculate the Next Board Array Function
 
-  nextStep(){
+nextStep(){
     let newBoardArray = []
     for (let i = 0 ; i < this.state.cells ; i++){
       
@@ -169,8 +182,7 @@ class Board extends React.Component {
         newBoardArray[i]=this.state.boardstate[i]
       }
     }      
-    
-  
+     
     let generation = this.state.generation+1
   
     this.setState ({
@@ -179,34 +191,82 @@ class Board extends React.Component {
     })
   }
 
-  genSmallBoardArray(){
-    let smallBoardArray = []
-    for (let i = 0; i < 1500; i++){
-      smallBoardArray[i]=0
+  genBoardArray(){
+    let newBoardArray = []
+    for (let i = 0; i < this.state.cells; i++){
+      newBoardArray[i]=0
     }
-    boardArray = smallBoardArray
+    boardArray = newBoardArray
     return boardArray
   }
  
+  // Change the Board Size Function
 
-  boardDimSmall(){
-    this.setState({
-      width: 512,
-      lines: 30,
-      cols: 50,
-      cells: 1500,
-      boardstate: this.genSmallBoardArray()
-    })   
+  boardSize(size){
+      
+      if (size === 1500) {
+      this.setState({
+        width: 512,
+        lines: 30,
+        cols: 50,
+        cells: 1500,
+        boardstate: this.genBoardArray(),
+        generation: 0
+      })  
+      
+      }
+
+      else if (size === 3500){
+        this.setState({
+          width: 712,
+          lines: 50,
+          cols: 70,
+          cells: 3500,
+          boardstate: this.genBoardArray(),
+          generation: 0
+        })    
+        }
+
+      else if (size === 8000){
+        this.setState({
+          width: 1012,
+          lines: 80,
+          cols: 100,
+          cells: 8000,
+          boardstate: this.genBoardArray(),
+          generation: 0
+        })    
+        }
+
+      }
+
+  
+  // Clear The Board Array , Empty Board
+
+  clearBoardArray(){
+    this.pauseGame()
+    for (let i = 0 ; i < this.state.cells ; i++) {
+        boardArray[i]=0
+    }
+    this.setState({boardstate: boardArray, generation: 0});
   }
 
-  clearBoardArray() {
-   for (let i = 0 ; i < this.state.cells ; i++) {
-     boardArray[i]=0
-   }
-   this.setState({boardstate: boardArray});
+  // Pause the Game
+
+  pauseGame(){
+    clearInterval(this.timerID)
   }
 
-  // Add Cells Clicking on the Board of the Game
+  // Continue Game Iterations
+
+  continueGame(){
+    this.timerID = setInterval(
+      () => this.nextStep(),
+      this.state.speed
+    )
+  }
+  // Add Cells by Clicking Function
+
   addBabyCells(i){
     console.log(i)
     boardArray=this.state.boardstate
@@ -215,19 +275,21 @@ class Board extends React.Component {
    
   }
 
+  // Change Cell Colors Function
+
   cellColor = (cell) => {
     if (cell===0) return '#fff'
     if (cell===1) return '#a0d080'
     if (cell===2) return '#006400'
   }  
 
-
+  // Render Board Stuff
 
   render(){
     
     return( 
       <div className="maincontainer container-fluid">
-          <BoardDash generation={this.state.generation} speed={this.state.speed} clearBoardArray={this.clearBoardArray.bind(this)} boardDimSmall={this.boardDimSmall.bind(this)} setSpeed={this.setSpeed.bind(this)} />
+          <BoardDash cols={this.state.cols} lines={this.state.lines} generation={this.state.generation} speed={this.state.speed} clearBoardArray={this.clearBoardArray.bind(this)} boardSize={this.boardSize.bind(this)} setSpeed={this.setSpeed.bind(this)} pauseGame={this.pauseGame.bind(this)} continueGame={this.continueGame.bind(this)} />
           
           {/* return the gaming board */}
           <div className="gamingboard" style={{width: this.state.width}}>
