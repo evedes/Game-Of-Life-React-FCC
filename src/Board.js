@@ -42,7 +42,6 @@ function initialState(boardSize) {
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function Cell(props){
-  debugger
   return(
     <div style={{background:props.cellColor(props.cell)}} onClick={()=> props.addBabyCells(props.i)} className="square" value={props.cell} key={props.i} ></div>
   )
