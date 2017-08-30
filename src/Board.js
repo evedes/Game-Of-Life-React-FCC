@@ -215,7 +215,6 @@ nextStep(){
         boardstate: this.genBoardArray(1500),
         generation: 0
       })  
-      
       }
 
       if (size === 3500){
@@ -274,7 +273,6 @@ continueGame() {
 // Add Cells by Clicking Function
 
 addBabyCells(i) {
-  console.log(i)
   boardArray=this.state.boardstate
   boardArray[i]=1
   this.setState({boardstate: boardArray}) 
