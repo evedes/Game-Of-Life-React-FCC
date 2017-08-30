@@ -17,10 +17,10 @@ const BoardDash = (props) => {
             <button className="btn btn-success">Run</button>
             <button className="btn btn-success">Pause</button>
             <button className="btn btn-success" onClick={props.clearBoardArray}>Clear</button> 
-            <h5>Generation: {props.generation} | Speed: {props.speed}</h5> 
+            <h5>Generation: {props.generation} | Refresh(ms): {props.speed}</h5> 
           </div>
           <div className="col-md-4">
-            <h3 className="h3title">Simulation Speed</h3>
+            <h3 className="h3title">Simulation Refresh Rate</h3>
               <button className="btn btn-success" onClick={()=>{return props.setSpeed(2000)}}>Slow</button>
               <button className="btn btn-success" onClick={()=>{return props.setSpeed(1000)}}>Medium</button>
               <button className="btn btn-success" onClick={()=>{props.setSpeed(100)}}>Fast</button> 

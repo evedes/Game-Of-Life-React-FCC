@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import BoardInfo from './BoardInfo'
 import BoardDash from './BoardDash'
 import './Board.css'
@@ -14,10 +14,12 @@ function initBoardArray(cells){
   return boardArray;
 }
 
+let lines = 50
+let cols = 70
+let cells = lines * cols
+
 function initialState(boardSize) {
-  let lines = 50
-  let cols = 70
-  let cells = lines * cols
+  
 
   return(
   {
@@ -31,6 +33,7 @@ function initialState(boardSize) {
   })
 }
 
+// Cell Stateless Function
 function Cell(props){
   debugger
   return(
@@ -39,7 +42,7 @@ function Cell(props){
 }
 
 // Board Class 
-class Board extends Component {
+class Board extends React.Component {
   constructor(props){
     super(props);
     this.state = initialState()
@@ -59,8 +62,7 @@ class Board extends Component {
     clearInterval(this.timerID)
   }
 
-// Set Speed Buttons Functions
-
+// Set Speed Function (Buttons)
   setSpeed(newSpeed) {
       clearInterval(this.timerID)
       this.setState({speed: newSpeed}) 
