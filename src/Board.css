@@ -25,6 +25,7 @@
     background-color:white;
     border-left: 1px solid black;
     border-bottom: 1px solid black;
+    cursor: pointer;
 }
 
 .square:hover{

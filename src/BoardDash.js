@@ -22,7 +22,7 @@ const BoardDash = (props) => {
             <h3 className="h3title">Simulation Refresh Rate</h3>
               <button className="btn btn-success" onClick={()=>{return props.setSpeed(2000)}}>Slow</button>
               <button className="btn btn-success" onClick={()=>{return props.setSpeed(1000)}}>Medium</button>
-              <button className="btn btn-success" onClick={()=>{return props.setSpeed(100)}}>Fast</button> 
+              <button className="btn btn-success" onClick={()=>{return props.setSpeed(10)}}>Fast</button> 
           </div>
         </div>
         <div className="row h2title">Game Of Life</div>

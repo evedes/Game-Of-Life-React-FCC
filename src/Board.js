@@ -89,7 +89,7 @@ setSpeed(newSpeed) {
 // Count the Number of Alive Neighbours Function
 
 countNeighbours(i){
-    // Top Left Corner Cell
+    // Top Left Corner Ce
     if (i===0){
         let count = 0
         if (this.state.boardstate[i+1]!==0) count++;
@@ -182,18 +182,19 @@ nextStep(){
         newBoardArray[i]=this.state.boardstate[i]
       }
     }      
-     
+   
     let generation = this.state.generation+1
-  
+      
     this.setState ({
       boardstate: newBoardArray,
       generation: generation
     })
+    
   }
 
-  genBoardArray(){
+  genBoardArray(cells){
     let newBoardArray = []
-    for (let i = 0; i < this.state.cells; i++){
+    for (let i = 0; i < cells; i++){
       newBoardArray[i]=0
     }
     boardArray = newBoardArray
@@ -205,35 +206,38 @@ nextStep(){
   boardSize(size){
       
       if (size === 1500) {
+      this.clearBoardArray()
       this.setState({
         width: 512,
         lines: 30,
         cols: 50,
         cells: 1500,
-        boardstate: this.genBoardArray(),
+        boardstate: this.genBoardArray(1500),
         generation: 0
       })  
       
       }
 
-      else if (size === 3500){
+      if (size === 3500){
+        this.clearBoardArray()
         this.setState({
           width: 712,
           lines: 50,
           cols: 70,
           cells: 3500,
-          boardstate: this.genBoardArray(),
+          boardstate: this.genBoardArray(3500),
           generation: 0
         })    
         }
 
-      else if (size === 8000){
+      if (size === 8000){
+        this.clearBoardArray()
         this.setState({
           width: 1012,
           lines: 80,
           cols: 100,
           cells: 8000,
-          boardstate: this.genBoardArray(),
+          boardstate: this.genBoardArray(8000),
           generation: 0
         })    
         }
@@ -241,47 +245,49 @@ nextStep(){
       }
 
   
-  // Clear The Board Array , Empty Board
+// Clear The Board Array , Empty Board
 
-  clearBoardArray(){
-    this.pauseGame()
-    for (let i = 0 ; i < this.state.cells ; i++) {
-        boardArray[i]=0
-    }
-    this.setState({boardstate: boardArray, generation: 0});
+clearBoardArray(){
+  this.pauseGame()
+  for (let i = 0 ; i < this.state.cells ; i++) {
+      boardArray[i]=0
   }
+  this.setState({boardstate: boardArray, generation: 0});
+}
 
-  // Pause the Game
+// Pause the Game
 
-  pauseGame(){
-    clearInterval(this.timerID)
-  }
+pauseGame() {
+  clearInterval(this.timerID)
+}
 
-  // Continue Game Iterations
 
-  continueGame(){
-    this.timerID = setInterval(
-      () => this.nextStep(),
-      this.state.speed
-    )
-  }
-  // Add Cells by Clicking Function
+// Continue Game Iterations
 
-  addBabyCells(i){
-    console.log(i)
-    boardArray=this.state.boardstate
-    boardArray[i]=1
-    this.setState({boardstate: boardArray}) 
-   
-  }
+continueGame() {
+  this.timerID = setInterval(
+    () => this.nextStep(),
+    this.state.speed
+  )
+}
 
-  // Change Cell Colors Function
+// Add Cells by Clicking Function
 
-  cellColor = (cell) => {
-    if (cell===0) return '#fff'
-    if (cell===1) return '#a0d080'
-    if (cell===2) return '#006400'
-  }  
+addBabyCells(i) {
+  console.log(i)
+  boardArray=this.state.boardstate
+  boardArray[i]=1
+  this.setState({boardstate: boardArray}) 
+  
+}
+
+// Change Cell Colors Function
+
+cellColor(cell) {
+  if (cell===0) return '#fff'
+  if (cell===1) return '#a0d080'
+  if (cell===2) return '#006400'
+}  
 
   // Render Board Stuff
 
