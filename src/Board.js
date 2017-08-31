@@ -33,19 +33,10 @@ function initialState(boardSize) {
     cols:cols, 
     cells: cells, 
     generation: 0, 
-    speed: 1000
+    speed: 100
   })
 }
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// CELL STATELESS COMPONENT
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function Cell(props){
-  return(
-    <div style={{background:props.cellColor(props.cell)}} onClick={()=> props.addBabyCells(props.i)} className="square" value={props.cell} key={props.i} ></div>
-  )
-}
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // BOARD CLASS
@@ -55,6 +46,7 @@ class Board extends React.Component {
   constructor(props){
     super(props);
     this.state = initialState()
+    this.addBabyCells = this.addBabyCells.bind(this)
   }
 
   // ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -68,7 +60,7 @@ class Board extends React.Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.timerID)
+        this.clearInterval(this.timerID)
     }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -271,9 +263,9 @@ continueGame() {
 
 // Add Cells by Clicking Function
 
-addBabyCells(i) {
+addBabyCells(key) {
   boardArray=this.state.boardstate
-  boardArray[i]=1
+  boardArray[key]=1
   this.setState({boardstate: boardArray}) 
   
 }
@@ -298,7 +290,7 @@ cellColor(cell) {
           <div className="gamingboard" style={{width: this.state.width}}>
             {this.state.boardstate.map((cell,i)=>{
               return(
-                <Cell cell={cell} i={i} cellColor={this.cellColor} addBabyCells={this.addBabyCells.bind(this)} />
+                <div style={{background: this.cellColor(cell)}} onClick={()=> this.addBabyCells(i)} className="square" value={cell} key={i}></div>
               )
               })
             }
